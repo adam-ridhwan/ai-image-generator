@@ -1,8 +1,7 @@
-import { getRandomPrompt } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+import Rocket from '@/icons/rocket';
+
 import { Button } from '@/components/ui/button';
 import FormField from '@/components/form-field';
-import GeneratePromptButton from '@/components/surprise-me-button';
 
 const CreatePostPage = () => {
   return (
@@ -18,8 +17,15 @@ const CreatePostPage = () => {
           </div>
         </section>
 
-        <section>
-          <FormField />
+        <section className=''>
+          <div className='container flex flex-col items-center gap-3 sm:w-[500px]'>
+            <FormField />
+
+            <Button className='flex w-full flex-row items-center gap-1'>
+              <Rocket />
+              Publish
+            </Button>
+          </div>
         </section>
       </main>
     </>

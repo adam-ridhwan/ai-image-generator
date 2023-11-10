@@ -1,12 +1,23 @@
-'use client';
+import { Dispatch, SetStateAction } from 'react';
 
+import { getRandomPrompt } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
-const SurpriseMeButton = () => {
+type Props = {
+  setPrompt: Dispatch<SetStateAction<string>>;
+};
+
+const SurpriseMeButton = ({ setPrompt }: Props) => {
+  const handleSetRandomPrompt = () => {
+    setPrompt(getRandomPrompt(''));
+  };
+
   return (
     <Button
+      type='button'
+      onClick={handleSetRandomPrompt}
       className='inline-flex h-max items-center rounded-md border border-transparent bg-secondary px-2.5 py-0.5 text-xs
-      font-semibold text-secondary-foreground transition-colors hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+      font-semibold text-secondary-foreground transition-colors hover:bg-secondary/80'
     >
       Surprise Me
     </Button>

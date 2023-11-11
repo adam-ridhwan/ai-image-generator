@@ -5,7 +5,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 
 const Header = () => (
-  <header className='container flex h-20 flex-row items-center justify-between'>
+  <header className='flex h-20 flex-row items-center justify-between px-[1rem]'>
     <Link href='/' className='w-[100px]'>
       <AspectRatio ratio={16 / 9}>
         <Image priority src='/logo.svg' alt='logo' fill className='object-contain' />

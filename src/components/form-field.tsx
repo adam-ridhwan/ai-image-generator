@@ -3,11 +3,13 @@
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
 import Wand from '@/icons/wand';
+import { toast } from 'sonner';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import SurpriseMeButton from '@/components/surprise-me-button';
 
 const FormField = () => {
@@ -16,6 +18,9 @@ const FormField = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!name) return toast.error('Name field cannot be empty.', { position: 'top-center' });
+    if (!prompt) return toast.error('Prompt field cannot be empty.', { position: 'top-center' });
 
     console.log({ name, prompt });
   };
@@ -40,12 +45,12 @@ const FormField = () => {
             <SurpriseMeButton setPrompt={setPrompt} />
           </div>
 
-          <Input
-            type='text'
+          <Textarea
             id='prompt'
             placeholder={'Type a prompt'}
             value={prompt}
             onChange={e => setPrompt(e.target.value)}
+            className='h-20 resize-none'
           />
         </div>
 

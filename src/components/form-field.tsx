@@ -20,18 +20,31 @@ const FormField = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log({ name, prompt });
+
     if (!name) return toast.error('Name field cannot be empty.', { position: 'top-center' });
     if (!prompt) return toast.error('Prompt field cannot be empty.', { position: 'top-center' });
 
-    const { image } = await fetch(`/api/dalle`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ prompt }),
-    }).then(res => res.json());
+    try {
+      const response = await fetch(`/api/dalle`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
 
-    setImage(image.url);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+
+      const data = await response.json();
+      setImage(data.image.url);
+    } catch (error) {
+      toast.error(`Error generating image: ${error}`, { position: 'top-center' });
+      // console.error(error);
+    }
   };
 
   return (

@@ -21,6 +21,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ image: image.data[0] }, { status: 200 });
   } catch (err) {
-    console.log(err);
+    const { status, error } = err;
+
+    return NextResponse.json({ message: error.message }, { status });
   }
 }

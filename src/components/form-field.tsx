@@ -23,15 +23,15 @@ const FormField = () => {
     if (!name) return toast.error('Name field cannot be empty.', { position: 'top-center' });
     if (!prompt) return toast.error('Prompt field cannot be empty.', { position: 'top-center' });
 
-    const imageResponse = await fetch(`/api/dalle`, {
+    const { image } = await fetch(`/api/dalle`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ prompt }),
-    });
+    }).then(res => res.json());
 
-    const { image } = await imageResponse.json();
+    console.log(image.url);
 
     setImage(image.url);
   };

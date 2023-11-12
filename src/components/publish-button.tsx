@@ -17,29 +17,21 @@ const PublishButton = () => {
   const image = useAtomValue(imageAtom);
 
   const handlePublish = async () => {
-    setGlobalLoading(true);
+    const parsedBody = PostSchema.safeParse({ name, prompt, image });
+    if (!parsedBody.success) throw new Error(`${parsedBody.error.issues[0].message}`);
 
-    try {
-      const parsedBody = PostSchema.safeParse({ name, prompt, image });
-      if (!parsedBody.success) throw new Error(`${parsedBody.error.issues[0].message}`);
-
-      await wrappedRequest(async () => {
-        const response = await fetch(`/api/upload`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(parsedBody.data),
-        });
-
-        if (response.status !== 200) throw new Error('Something went wrong.');
-
-        toast.success('Published to community');
-        return response.json();
+    await wrappedRequest(async () => {
+      const response = await fetch(`/api/upload`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsedBody.data),
       });
-    } catch (err) {
-      toast.error(`${err}`);
-    } finally {
-      setGlobalLoading(false);
-    }
+
+      if (response.status !== 200) throw new Error('Something went wrong.');
+
+      toast.success('Published to community');
+      return response.json();
+    });
   };
 
   return (

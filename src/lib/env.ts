@@ -8,12 +8,6 @@ const env = cleanEnv(process.env, {
 
   POST_COLLECTION: str(),
 
-  NEXTAUTH_SECRET: str(),
-  NEXTAUTH_URL: str(),
-
-  GOOGLE_ID: str(),
-  GOOGLE_SECRET: str(),
-
   OPENAI_API_KEY: str(),
 });
 

@@ -1,6 +1,9 @@
+import { connectToDatabase } from '@/lib/connectToDatabase';
 import SearchInput from '@/components/search-input';
 
-export default function Home() {
+export default async function Home() {
+  const { postCollection } = await connectToDatabase();
+
   return (
     <main className='mb-20'>
       <section className='bg-secondary/50 pb-24 pt-16'>
@@ -23,7 +26,7 @@ export default function Home() {
       </div>
 
       <section className='container'>
-        <div className='xs:grid-cols-2 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-4'>Grid</div>
+        <div className='grid grid-cols-1 gap-3 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>Grid</div>
       </section>
     </main>
   );

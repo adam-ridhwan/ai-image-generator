@@ -1,5 +1,4 @@
-import { SVGProps } from '@/types';
-
+import { SVGProps } from '@/types/types';
 import { cn } from '@/lib/utils';
 
 const Wand = ({ className }: SVGProps) => {

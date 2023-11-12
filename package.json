@@ -1,5 +1,5 @@
 {
-  "name": "next.js-template",
+  "name": "pixel-craft",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,8 +15,11 @@
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "envalid": "^8.0.0",
     "file-saver": "^2.0.5",
+    "mongodb": "^6.2.0",
     "next": "13.5.5",
+    "openai": "^4.17.4",
     "react": "^18",
     "react-dom": "^18",
     "sonner": "^1.2.0",

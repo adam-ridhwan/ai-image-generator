@@ -15,57 +15,71 @@ import SurpriseMeButton from '@/components/surprise-me-button';
 const FormField = () => {
   const [name, setName] = useState('');
   const [prompt, setPrompt] = useState('');
+  const [image, setImage] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!name) return toast.error('Name field cannot be empty.', { position: 'top-center' });
     if (!prompt) return toast.error('Prompt field cannot be empty.', { position: 'top-center' });
 
-    console.log({ name, prompt });
+    const imageResponse = await fetch(`/api/dalle`, {
+      method: 'POST',
+      body: JSON.stringify({ prompt }),
+    });
+
+    const { image } = await imageResponse.json();
+
+    console.log(image.url);
+    setImage(image.url);
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className='flex w-full flex-col gap-8'>
-        <div className='flex w-full flex-col gap-2'>
-          <Label htmlFor='name'>Your Name</Label>
-          <Input
-            type='text'
-            id='name'
-            placeholder='Name'
-            value={name}
-            onChange={e => setName(e.target.value)}
+    <form onSubmit={handleSubmit} className='flex w-full flex-col gap-8'>
+      <div className='flex w-full flex-col gap-2'>
+        <Label htmlFor='name'>Your Name</Label>
+        <Input
+          type='text'
+          id='name'
+          placeholder='Name'
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+      </div>
+
+      <div className='flex w-full flex-col gap-2'>
+        <div className='flex flex-row items-center gap-2 '>
+          <Label htmlFor='prompt'>Prompt</Label>
+          <SurpriseMeButton setPrompt={setPrompt} />
+        </div>
+
+        <Textarea
+          id='prompt'
+          placeholder='Type a prompt'
+          value={prompt}
+          onChange={e => setPrompt(e.target.value)}
+          className='h-20 resize-none'
+        />
+      </div>
+
+      <div className='w-full rounded-md border border-border p-4'>
+        <AspectRatio ratio={1}>
+          <Image
+            priority
+            src={image || '/preview.png'}
+            alt='logo'
+            fill
+            sizes='(max-width: 640px) 558px, 434px'
+            className='rounded-sm object-contain'
           />
-        </div>
+        </AspectRatio>
+      </div>
 
-        <div className='flex w-full flex-col gap-2'>
-          <div className='flex flex-row items-center gap-2 '>
-            <Label htmlFor='prompt'>Prompt</Label>
-            <SurpriseMeButton setPrompt={setPrompt} />
-          </div>
-
-          <Textarea
-            id='prompt'
-            placeholder={'Type a prompt'}
-            value={prompt}
-            onChange={e => setPrompt(e.target.value)}
-            className='h-20 resize-none'
-          />
-        </div>
-
-        <div className='w-full rounded-md border border-border p-4'>
-          <AspectRatio ratio={1}>
-            <Image priority src='/preview.png' alt='logo' fill className='object-contain opacity-50' />
-          </AspectRatio>
-        </div>
-
-        <Button type='submit' variant='outline' className='flex w-full flex-row items-center gap-1'>
-          <Wand />
-          Generate
-        </Button>
-      </form>
-    </>
+      <Button type='submit' variant='outline' className='flex w-full flex-row items-center gap-1'>
+        <Wand />
+        Generate
+      </Button>
+    </form>
   );
 };
 

@@ -31,8 +31,6 @@ const FormField = () => {
       body: JSON.stringify({ prompt }),
     }).then(res => res.json());
 
-    console.log(image.url);
-
     setImage(image.url);
   };
 

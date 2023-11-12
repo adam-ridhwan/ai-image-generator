@@ -34,14 +34,14 @@ const FormField = () => {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        setError(error);
-        throw new Error(error.message);
+        if (response.status === 504)
+          throw new Error('The server took too long to respond. Please try again later.');
+        const errorText = await response.text();
+        throw new Error(errorText);
       }
 
       const data = await response.json();
-      console.log(data.image.data[0].url);
-      setImage(data.image.data[0].url);
+      if (data.image) setImage(data.image.data[0].url);
     } catch (error) {
       toast.error(`Error generating image: ${error}`, { position: 'top-center' });
       console.error(error);

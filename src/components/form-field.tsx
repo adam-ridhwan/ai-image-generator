@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Wand from '@/icons/wand';
 import { toast } from 'sonner';
 
+import { cn } from '@/lib/utils';
+import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,10 +15,11 @@ import { Textarea } from '@/components/ui/textarea';
 import SurpriseMeButton from '@/components/surprise-me-button';
 
 const FormField = () => {
+  const { loading, wrappedRequest } = useWrappedRequest();
+
   const [name, setName] = useState('');
   const [prompt, setPrompt] = useState('');
   const [image, setImage] = useState('');
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,28 +27,26 @@ const FormField = () => {
     if (!name) return toast.error('Name field cannot be empty.', { position: 'top-center' });
     if (!prompt) return toast.error('Prompt field cannot be empty.', { position: 'top-center' });
 
-    try {
+    const result = await wrappedRequest(async () => {
       const response = await fetch(`/api/dalle`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
       });
 
       if (!response.ok) {
-        if (response.status === 504)
+        if (response.status === 504) {
           throw new Error('The server took too long to respond. Please try again later.');
-        const errorText = await response.text();
-        throw new Error(errorText);
+        }
+        const error = await response.text();
+        throw new Error(error);
       }
 
-      const data = await response.json();
-      if (data.image) setImage(data.image.data[0].url);
-    } catch (error) {
-      toast.error(`Error generating image: ${error}`, { position: 'top-center' });
-      console.error(error);
-    }
+      return response.json();
+    });
+
+    // Handle the result from the wrapped request
+    if (result?.image) setImage(result.image.data[0].url);
   };
 
   return (
@@ -84,12 +85,17 @@ const FormField = () => {
             alt='logo'
             fill
             sizes='(max-width: 640px) 558px, 434px'
-            className='rounded-sm object-contain'
+            className={cn('rounded-sm object-contain', { 'opacity-50': loading })}
           />
         </AspectRatio>
       </div>
 
-      <Button type='submit' variant='outline' className='flex w-full flex-row items-center gap-1'>
+      <Button
+        type='submit'
+        variant='outline'
+        disabled={loading}
+        className='flex w-full flex-row items-center gap-1'
+      >
         <Wand />
         Generate
       </Button>

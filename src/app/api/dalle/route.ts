@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+import { delay } from '@/lib/utils';
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   organization: 'org-CmGnkEx9vPItQClCXzpU6n2E',
@@ -19,9 +21,13 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ image: image }, { status: 200 });
+
+    // await delay(3000);
+    //
+    // return NextResponse.json({ message: 'success' }, { status: 200 });
   } catch (err) {
     const { status, error }: any = err;
-    // console.log(err);
+    console.log(err);
     return NextResponse.json({ message: error.message }, { status });
   }
 }

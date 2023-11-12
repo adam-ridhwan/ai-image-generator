@@ -5,7 +5,6 @@ const env = cleanEnv(process.env, {
 
   MONGODB_URI: str(),
   MONGODB_DATABASE: str(),
-
   POST_COLLECTION: str(),
 
   OPENAI_API_KEY: str(),

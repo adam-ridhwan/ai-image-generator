@@ -16,11 +16,10 @@ const FormField = () => {
   const [name, setName] = useState('');
   const [prompt, setPrompt] = useState('');
   const [image, setImage] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log({ name, prompt });
 
     if (!name) return toast.error('Name field cannot be empty.', { position: 'top-center' });
     if (!prompt) return toast.error('Prompt field cannot be empty.', { position: 'top-center' });
@@ -36,6 +35,7 @@ const FormField = () => {
 
       if (!response.ok) {
         const error = await response.json();
+        setError(error);
         throw new Error(error.message);
       }
 
@@ -43,7 +43,7 @@ const FormField = () => {
       setImage(data.image.url);
     } catch (error) {
       toast.error(`Error generating image: ${error}`, { position: 'top-center' });
-      // console.error(error);
+      console.log(error);
     }
   };
 

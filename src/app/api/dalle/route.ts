@@ -10,7 +10,6 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const prompt = body.prompt;
-    console.log(prompt);
 
     const image = await openai.images.generate({
       model: 'dall-e-3',
@@ -22,6 +21,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ image: image.data[0] }, { status: 200 });
   } catch (err) {
     const { status, error }: any = err;
+    // console.log(err);
     return NextResponse.json({ message: error.message }, { status });
   }
 }

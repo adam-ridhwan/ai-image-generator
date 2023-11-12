@@ -25,6 +25,9 @@ const FormField = () => {
 
     const imageResponse = await fetch(`/api/dalle`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ prompt }),
     });
 

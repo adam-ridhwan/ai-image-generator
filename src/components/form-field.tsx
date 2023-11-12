@@ -30,7 +30,6 @@ const FormField = () => {
 
     const { image } = await imageResponse.json();
 
-    console.log(image.url);
     setImage(image.url);
   };
 

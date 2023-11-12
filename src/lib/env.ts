@@ -8,6 +8,11 @@ const env = cleanEnv(process.env, {
   POST_COLLECTION: str(),
 
   OPENAI_API_KEY: str(),
+  OPENAI_ORG: str(),
+
+  CLOUDINARY_CLOUD_NAME: str(),
+  CLOUDINARY_API_KEY: str(),
+  CLOUDINARY_API_SECRET: str(),
 });
 
 export default env;

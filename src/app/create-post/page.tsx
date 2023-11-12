@@ -1,7 +1,5 @@
-import Rocket from '@/icons/rocket';
-
-import { Button } from '@/components/ui/button';
-import FormField from '@/components/form-field';
+import GeneratedImageDialog from '@/components/generated-image-dialog';
+import Prompt from '@/components/prompt';
 
 const CreatePostPage = () => {
   return (
@@ -15,14 +13,13 @@ const CreatePostPage = () => {
         </div>
       </section>
 
-      <section className=''>
+      <section>
         <div className='container flex flex-col items-center gap-3 sm:w-[500px]'>
-          <FormField />
+          <Prompt />
 
-          <Button className='flex w-full flex-row items-center gap-1'>
-            <Rocket />
-            Publish
-          </Button>
+          <GeneratedImageDialog />
+
+          {/*<PublishButton />*/}
         </div>
       </section>
     </main>

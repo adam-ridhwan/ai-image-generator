@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='en'>
       <body className={`${inter.className} min-h-[100dvh]`}>
-        <Toaster richColors />
+        <Toaster richColors position='top-center' toastOptions={{ style: { fontSize: '16px' } }} />
         <Header />
         {children}
       </body>

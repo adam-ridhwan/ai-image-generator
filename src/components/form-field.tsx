@@ -40,10 +40,11 @@ const FormField = () => {
       }
 
       const data = await response.json();
+      console.log(data);
       setImage(data.image.url);
     } catch (error) {
       toast.error(`Error generating image: ${error}`, { position: 'top-center' });
-      console.log(error);
+      console.error(error);
     }
   };
 

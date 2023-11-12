@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       size: '1024x1024',
     });
 
-    return NextResponse.json({ image: image.data[0] }, { status: 200 });
+    return NextResponse.json({ image: image }, { status: 200 });
   } catch (err) {
     const { status, error }: any = err;
     // console.log(err);

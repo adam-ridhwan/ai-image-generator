@@ -6,8 +6,6 @@ import { getPosts } from '@/actions/get-posts';
 import { z } from 'zod';
 
 import { PostSchemaModel } from '@/types/client-types';
-import { PostSchemaDTO } from '@/types/server-types';
-import { PostSchema } from '@/types/types';
 import { cn } from '@/lib/utils';
 import SearchInput from '@/components/search-input';
 

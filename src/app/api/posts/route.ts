@@ -11,7 +11,7 @@ export async function POST() {
 
   // await postCollection.deleteMany({});
 
-  const fetchedPosts = await postCollection.find().toArray();
+  const fetchedPosts = await postCollection.find().sort({ _id: -1 }).toArray();
 
   const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
   if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);

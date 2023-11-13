@@ -17,14 +17,13 @@ const PublishButton = () => {
   const image = useAtomValue(imageAtom);
 
   const handlePublish = async () => {
-    const parsedBody = PostSchema.safeParse({ name, prompt, image });
-    if (!parsedBody.success) throw new Error(`${parsedBody.error.issues[0].message}`);
-
     await wrappedRequest(async () => {
+      const parsedPost = PostSchema.safeParse({ name, prompt, image });
+      if (!parsedPost.success) throw new Error(`${parsedPost.error.issues[0].message}`);
       const response = await fetch(`/api/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsedBody.data),
+        body: JSON.stringify(parsedPost.data),
       });
 
       if (response.status !== 200) throw new Error('Something went wrong.');

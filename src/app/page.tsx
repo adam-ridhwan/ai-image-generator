@@ -4,6 +4,8 @@ import SearchInput from '@/components/search-input';
 export default async function Home() {
   const { postCollection } = await connectToDatabase();
 
+  // await postCollection.deleteMany({});
+
   return (
     <main className='mb-20'>
       <section className='bg-secondary/50 pb-24 pt-16'>

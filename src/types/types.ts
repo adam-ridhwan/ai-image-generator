@@ -28,9 +28,10 @@ export const CloudinaryUploadDataSchema = z.object({
 });
 
 export const PromptSchema = z.string().min(3, 'Prompt must be at least 3 characters long.');
+export const NameSchema = z.string().min(1, 'Name cannot be empty.');
 
 export const PostSchema = z.object({
-  name: z.string().min(3, 'Name must be at least 3 characters long.'),
+  name: NameSchema,
   prompt: PromptSchema,
   image: z.string().min(3, 'Image URL must be at least 3 characters long.'),
 });

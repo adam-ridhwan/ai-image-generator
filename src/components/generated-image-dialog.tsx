@@ -1,11 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import LoadingSpinner from '@/icons/loading-spinner';
+import Rocket from '@/icons/rocket';
 import { atom, useAtom, useAtomValue } from 'jotai';
+import { toast } from 'sonner';
 
+import { PostSchema, PromptSchema } from '@/types/types';
 import { cn } from '@/lib/utils';
+import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,6 +21,7 @@ import PublishButton from '@/components/publish-button';
 export const isGeneratedImageDialogOpenAtom = atom(false);
 
 const GeneratedImageDialog = () => {
+  const { loading: isPublishing, wrappedRequest, globalLoading, setGlobalLoading } = useWrappedRequest();
   const [name, setName] = useAtom(nameAtom);
   const prompt = useAtomValue(promptAtom);
   const image = useAtomValue(imageAtom);
@@ -22,10 +29,35 @@ const GeneratedImageDialog = () => {
     isGeneratedImageDialogOpenAtom
   );
 
+  const [error, setError] = useState('');
+
+  const handleCloseDialog = () => {
+    setIsGeneratedImageDialogOpenAtom(false);
+    setError('');
+  };
+
+  const handlePublish = async () => {
+    await wrappedRequest(async () => {
+      const parsedPost = PostSchema.safeParse({ name, prompt, image });
+      if (!parsedPost.success) return setError(parsedPost.error.issues[0].message);
+
+      const response = await fetch(`/api/upload`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsedPost.data),
+      });
+
+      if (response.status !== 200) throw new Error('Something went wrong.');
+
+      toast.success('Published to community');
+      return response.json();
+    });
+  };
+
   return (
     <>
-      <Dialog open={isGeneratedImageDialogOpen} onOpenChange={setIsGeneratedImageDialogOpenAtom}>
-        <DialogContent onOpenAutoFocus={e => e.preventDefault()} className='pt-12'>
+      <Dialog open={isGeneratedImageDialogOpen} onOpenChange={handleCloseDialog}>
+        <DialogContent onOpenAutoFocus={e => e.preventDefault()} className='pt-16'>
           <DialogHeader>
             <DialogTitle>{prompt}</DialogTitle>
           </DialogHeader>
@@ -52,12 +84,33 @@ const GeneratedImageDialog = () => {
                 onChange={e => setName(e.target.value)}
                 className='border-transparent bg-secondary/80 hover:border hover:border-primary/30'
               />
+
+              <p className='text-destructive'>{error}</p>
             </div>
 
-            <PublishButton />
+            <Button
+              type='button'
+              size='xl'
+              onClick={handlePublish}
+              disabled={globalLoading || isPublishing}
+              className='flex w-full flex-row items-center gap-1'
+            >
+              {renderLabel(isPublishing)}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
+    </>
+  );
+};
+
+const renderLabel = (isPublishing: boolean) => {
+  const Icon = isPublishing ? LoadingSpinner : Rocket;
+  const Text = isPublishing ? 'Publishing...' : 'Publish';
+  return (
+    <>
+      <Icon className='stroke-secondary' />
+      {Text}
     </>
   );
 };

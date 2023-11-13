@@ -34,6 +34,7 @@ const GeneratedImageDialog = () => {
   const handleCloseDialog = () => {
     setIsGeneratedImageDialogOpenAtom(false);
     setError('');
+    setName('');
   };
 
   const handlePublish = async () => {
@@ -82,6 +83,7 @@ const GeneratedImageDialog = () => {
                 placeholder='Name'
                 value={name}
                 onChange={e => setName(e.target.value)}
+                onFocus={() => setError('')}
                 className='border-transparent bg-secondary/80 hover:border hover:border-primary/30'
               />
 
@@ -106,7 +108,7 @@ const GeneratedImageDialog = () => {
 
 const renderLabel = (isPublishing: boolean) => {
   const Icon = isPublishing ? LoadingSpinner : Rocket;
-  const Text = isPublishing ? 'Publishing...' : 'Publish';
+  const Text = isPublishing ? 'Publishing...' : 'Publish to community';
   return (
     <>
       <Icon className='stroke-secondary' />

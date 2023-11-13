@@ -65,11 +65,12 @@ const Prompt = () => {
       <div className='flex w-full flex-col gap-2'>
         <div className='flex flex-row items-center justify-between gap-2'>
           <Label className='text-md'>Prompt</Label>
-          <TryExampleButton />
+          <TryExampleButton isGenerating={isGenerating} />
         </div>
 
         <Textarea
           id='prompt'
+          disabled={isGenerating}
           placeholder='A cute cat sitting on a plate'
           value={prompt}
           onChange={e => setPrompt(e.target.value)}

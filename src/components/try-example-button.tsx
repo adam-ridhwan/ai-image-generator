@@ -8,14 +8,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { promptAtom } from '@/components/prompt';
 
 type Props = {
-  setPrompt: Dispatch<SetStateAction<string>>;
+  isGenerating: boolean;
 };
 
-const TryExampleButton = () => {
+const TryExampleButton = ({ isGenerating }: Props) => {
   const setPrompt = useSetAtom(promptAtom);
   return (
     <>
-      <Button type='button' variant='outline' size='sm' onClick={() => setPrompt(getRandomPrompt(''))}>
+      <Button
+        type='button'
+        disabled={isGenerating}
+        variant='outline'
+        size='sm'
+        onClick={() => setPrompt(getRandomPrompt(''))}
+      >
         Try example
       </Button>
     </>

@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
 
     const insertResult = await postCollection.insertOne(parsedNewPost.data);
     if (!insertResult.acknowledged) throw new Error('Document insertion failed.');
+    revalidatePath('/');
 
     return NextResponse.json({ uploadData: parseResult.data }, { status: 200 });
   } catch (err) {

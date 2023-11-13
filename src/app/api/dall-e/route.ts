@@ -17,8 +17,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const prompt = body.prompt;
 
-    console.log(body);
-
     const parsedPrompt = PromptSchema.safeParse(prompt);
     if (!parsedPrompt.success) throw new Error(parsedPrompt.error.message);
 

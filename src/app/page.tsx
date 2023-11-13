@@ -1,22 +1,22 @@
 import Image from 'next/image';
-import { z } from 'zod';
 
 import '@/types/types';
 
-import { PostSchemaModel } from '@/types/client-types';
+import { getPosts } from '@/actions/get-posts';
+
 import { connectToDatabase } from '@/lib/connectToDatabase';
-import { cn, plainify } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import SearchInput from '@/components/search-input';
 
 export default async function Home() {
-  const { postCollection } = await connectToDatabase();
+  const { posts } = await getPosts();
 
-  const fetchedPosts = await postCollection.find().toArray();
-
-  const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
-  if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);
-
-  const posts = parsedFetchedPosts.data;
+  // const fetchedPosts = await postCollection.find().toArray();
+  //
+  // const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
+  // if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);
+  //
+  // const posts = parsedFetchedPosts.data;
 
   // const postsToDuplicate = posts.map(post => {
   //   // Clone the post object

@@ -52,12 +52,12 @@ const Prompt = () => {
 
     if (!result) return;
 
-    // setImage(result.image.data[0].url);
+    setImage(result.image.data[0].url);
     setIsGeneratedImageDialogOpenAtom(true);
 
-    setImage(
-      'https://res.cloudinary.com/denswhkem/image/upload/v1699817734/pixel-craft/pgbp4lfypwk2ws9hij5w.png'
-    );
+    // setImage(
+    //   'https://res.cloudinary.com/denswhkem/image/upload/v1699817734/pixel-craft/pgbp4lfypwk2ws9hij5w.png'
+    // );
   };
 
   return (

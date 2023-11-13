@@ -20,18 +20,18 @@ export async function POST(request: Request) {
     const parsedPrompt = PromptSchema.safeParse(prompt);
     if (!parsedPrompt.success) throw new Error(parsedPrompt.error.message);
 
-    // const image = await openai.images.generate({
-    //   model: 'dall-e-3',
-    //   prompt: parsedPrompt.data,
-    //   n: 1,
-    //   size: '1024x1024',
-    // });
-    //
-    // return NextResponse.json({ image: image }, { status: 200 });
+    const image = await openai.images.generate({
+      model: 'dall-e-3',
+      prompt: parsedPrompt.data,
+      n: 1,
+      size: '1024x1024',
+    });
+
+    return NextResponse.json({ image: image }, { status: 200 });
 
     // await delay(3000);
 
-    return NextResponse.json({ message: 'TESTING: hello from dall-e' }, { status: 200 });
+    // return NextResponse.json({ message: 'TESTING: hello from dall-e' }, { status: 200 });
   } catch (err) {
     const { status, error }: any = err;
     console.log(err);

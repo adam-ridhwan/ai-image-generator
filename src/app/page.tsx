@@ -3,14 +3,20 @@ import Image from 'next/image';
 import '@/types/types';
 
 import { getPosts } from '@/actions/get-posts';
+import { z } from 'zod';
 
+import { PostSchemaModel } from '@/types/client-types';
+import { PostSchemaDTO } from '@/types/server-types';
+import { PostSchema } from '@/types/types';
 import { cn } from '@/lib/utils';
 import SearchInput from '@/components/search-input';
 
 export default async function Home() {
-  const { posts } = await getPosts();
+  const posts = await getPosts();
 
-  // const fetchedPosts = await postCollection.find().toArray();
+  const parsedPost = z.array(PostSchemaModel).safeParse(posts);
+  if (!parsedPost.success) return <div>Error fetching posts</div>;
+
   //
   // const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
   // if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);
@@ -53,7 +59,7 @@ export default async function Home() {
 
       <section className='container'>
         <div className='group  grid grid-flow-row-dense grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-          {posts.map(({ _id, name, prompt, image }, index) => (
+          {parsedPost.data.map(({ _id, name, prompt, image }, index) => (
             <button
               key={_id}
               className={cn('group/item relative aspect-square w-full', {

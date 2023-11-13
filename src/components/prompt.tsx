@@ -4,10 +4,10 @@ import { FormEvent, useState } from 'react';
 import LoadingSpinner from '@/icons/loading-spinner';
 import Wand from '@/icons/wand';
 import { atom, useAtom, useSetAtom } from 'jotai';
-import { z } from 'zod';
 
-import { PromptSchema } from '@/types/types';
+import { Post, PromptSchema } from '@/types/types';
 import { cn } from '@/lib/utils';
+import usePost from '@/hooks/usePost';
 import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -15,25 +15,18 @@ import { Textarea } from '@/components/ui/textarea';
 import { isGeneratedImageDialogOpenAtom } from '@/components/generated-image-dialog';
 import TryExampleButton from '@/components/try-example-button';
 
-export const nameAtom = atom('');
-export const promptAtom = atom('');
-export const imageAtom = atom('');
-
 const Prompt = () => {
+  const { post, setPost } = usePost();
   const { loading: isGenerating, wrappedRequest } = useWrappedRequest();
-
-  const [prompt, setPrompt] = useAtom(promptAtom);
-  const [image, setImage] = useAtom(imageAtom);
+  const [error, setError] = useState('');
 
   const setIsGeneratedImageDialogOpenAtom = useSetAtom(isGeneratedImageDialogOpenAtom);
-
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const result = await wrappedRequest(async () => {
-      const parsedPrompt = z.string().min(3, 'Prompt must be at least 3 characters long.').safeParse(prompt);
+      const parsedPrompt = PromptSchema.safeParse(post.prompt);
       if (!parsedPrompt.success) return setError(parsedPrompt.error.issues[0].message);
 
       const response = await fetch(`/api/dall-e`, {
@@ -42,23 +35,22 @@ const Prompt = () => {
         body: JSON.stringify({ prompt: parsedPrompt.data }),
       });
 
-      if (!response.ok) {
-        if (response.status === 504) throw new Error('The server took too long to respond.');
-        const error = await response.text();
-        throw new Error(error);
-      }
+      if (!response.ok) throw new Error(await response.text());
 
       return response.json();
     });
 
-    if (!result) return;
+    console.log(result);
 
-    setImage(result.image.data[0].url);
+    setPost(post => ({
+      ...post,
+      image: result.data[0].url,
+      revised_prompt: result.data[0].revised_prompt,
+    }));
+
+    console.log(post);
+
     setIsGeneratedImageDialogOpenAtom(true);
-
-    // setImage(
-    //   'https://res.cloudinary.com/denswhkem/image/upload/v1699817734/pixel-craft/pgbp4lfypwk2ws9hij5w.png'
-    // );
   };
 
   return (
@@ -73,8 +65,8 @@ const Prompt = () => {
           id='prompt'
           disabled={isGenerating}
           placeholder='A cute cat sitting on a plate'
-          value={prompt}
-          onChange={e => setPrompt(e.target.value)}
+          value={post.prompt}
+          onChange={e => setPost(post => ({ ...post, prompt: e.target.value }))}
           onFocus={() => setError('')}
           className={cn(
             `h-20 resize-none border-transparent bg-secondary/80 hover:border hover:border-primary/30`,

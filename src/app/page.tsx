@@ -4,7 +4,6 @@ import '@/types/types';
 
 import { getPosts } from '@/actions/get-posts';
 
-import { connectToDatabase } from '@/lib/connectToDatabase';
 import { cn } from '@/lib/utils';
 import SearchInput from '@/components/search-input';
 
@@ -61,7 +60,13 @@ export default async function Home() {
                 'sm:col-span-2 sm:row-span-2': index % 6 === 0,
               })}
             >
-              <Image src={image} alt='image' fill className='z-40 rounded-lg object-cover shadow-lg' />
+              <Image
+                priority
+                src={image}
+                alt='image'
+                fill
+                className='z-40 rounded-lg object-cover shadow-lg'
+              />
 
               <div
                 className={cn(

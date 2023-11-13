@@ -2,25 +2,22 @@
 
 import LoadingSpinner from '@/icons/loading-spinner';
 import Rocket from '@/icons/rocket';
-import { useAtomValue } from 'jotai';
 import { toast } from 'sonner';
 
 import '@/types/types';
 
 import { PostSchemaModel } from '@/types/client-types';
+import usePost from '@/hooks/usePost';
 import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { Button } from '@/components/ui/button';
-import { imageAtom, nameAtom, promptAtom } from '@/components/prompt';
 
 const PublishButton = () => {
-  const { loading: isPublishing, wrappedRequest, globalLoading, setGlobalLoading } = useWrappedRequest();
-  const name = useAtomValue(nameAtom);
-  const prompt = useAtomValue(promptAtom);
-  const image = useAtomValue(imageAtom);
+  const { post } = usePost();
+  const { loading: isPublishing, wrappedRequest } = useWrappedRequest();
 
   const handlePublish = async () => {
     await wrappedRequest(async () => {
-      const parsedPost = PostSchemaModel.safeParse({ name, prompt, image });
+      const parsedPost = PostSchemaModel.safeParse(post);
       if (!parsedPost.success) throw new Error(`${parsedPost.error.issues[0].message}`);
 
       const response = await fetch(`/api/upload`, {
@@ -29,7 +26,7 @@ const PublishButton = () => {
         body: JSON.stringify(parsedPost.data),
       });
 
-      if (response.status !== 200) throw new Error('Something went wrong.');
+      if (!response.ok) throw new Error(await response.text());
 
       toast.success('Published to community');
       return response.json();
@@ -41,7 +38,7 @@ const PublishButton = () => {
       type='button'
       size='xl'
       onClick={handlePublish}
-      disabled={globalLoading || isPublishing}
+      disabled={isPublishing}
       className='flex w-full flex-row items-center gap-1'
     >
       {renderLabel(isPublishing)}

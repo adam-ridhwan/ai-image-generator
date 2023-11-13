@@ -10,6 +10,8 @@ import { plainify } from '@/lib/utils';
 export async function getPosts() {
   const { postCollection } = await connectToDatabase();
 
+  // await postCollection.deleteMany({});
+
   const fetchedPosts = await postCollection.find().toArray();
 
   const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));

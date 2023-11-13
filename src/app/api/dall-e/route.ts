@@ -3,7 +3,6 @@ import OpenAI from 'openai';
 
 import { PromptSchema } from '@/types/types';
 import env from '@/lib/env';
-import { delay } from '@/lib/utils';
 
 const { OPENAI_API_KEY, OPENAI_ORG } = env;
 
@@ -13,13 +12,17 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: Request) {
+  // await delay(3000);
+  // return NextResponse.json({ message: 'TESTING: hello from dall-e' }, { status: 200 });
+
+  const body = await request.json();
+  const prompt = body.prompt;
+
+  const parsedPrompt = PromptSchema.safeParse(prompt);
+  if (!parsedPrompt.success) return NextResponse.json(parsedPrompt.error.message, { status: 400 });
+
+  // dall-e image generation
   try {
-    const body = await request.json();
-    const prompt = body.prompt;
-
-    const parsedPrompt = PromptSchema.safeParse(prompt);
-    if (!parsedPrompt.success) throw new Error(parsedPrompt.error.message);
-
     const image = await openai.images.generate({
       model: 'dall-e-3',
       prompt: parsedPrompt.data,
@@ -27,14 +30,9 @@ export async function POST(request: Request) {
       size: '1024x1024',
     });
 
-    return NextResponse.json({ image: image }, { status: 200 });
-
-    // await delay(3000);
-
-    // return NextResponse.json({ message: 'TESTING: hello from dall-e' }, { status: 200 });
-  } catch (err) {
-    const { status, error }: any = err;
-    console.log(err);
-    return NextResponse.json({ message: error.message }, { status });
+    return NextResponse.json(image, { status: 200 });
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json(String(error.error.message), { status: error.status });
   }
 }

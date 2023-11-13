@@ -16,10 +16,7 @@ const CreatePostPage = () => {
       <section>
         <div className='container flex flex-col items-center gap-3 sm:w-[500px]'>
           <Prompt />
-
           <GeneratedImageDialog />
-
-          {/*<PublishButton />*/}
         </div>
       </section>
     </main>

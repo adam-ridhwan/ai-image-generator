@@ -6,7 +6,6 @@ const globalLoadingAtom = atom(false);
 
 export function useWrappedRequest() {
   const [loading, setLoading] = useState(false);
-  const [globalLoading, setGlobalLoading] = useAtom(globalLoadingAtom);
 
   const wrappedRequest = useCallback(
     async <T extends any = void>(promise: () => Promise<T>): Promise<T | null> => {
@@ -15,8 +14,8 @@ export function useWrappedRequest() {
         const result = await promise();
         return result;
       } catch (error) {
-        toast.error(`${error}`);
-        // console.error(error);
+        toast.error(`${error?.toString().replace(/['"]+/g, '')}`);
+        console.error(error);
         return null;
       } finally {
         setLoading(false);
@@ -25,5 +24,5 @@ export function useWrappedRequest() {
     []
   );
 
-  return { loading, wrappedRequest, globalLoading, setGlobalLoading };
+  return { loading, wrappedRequest };
 }

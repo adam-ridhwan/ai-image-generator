@@ -6,13 +6,16 @@ const { NEXT_PUBLIC_NODE_ENV } = env;
 
 export async function getPosts() {
   const url =
-    NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://pixel-craft-rust.vercel.app/' : 'http://localhost:3000/';
-  const response = await fetch(`${url}/api/posts`, {
-    method: 'POST',
-    cache: 'no-store',
-  });
+    NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://pixel-craft-rust.vercel.app' : 'http://localhost:3000';
 
-  const posts = await response.json();
+  try {
+    const posts = await fetch(`${url}/api/posts`, {
+      method: 'POST',
+      cache: 'no-store',
+    });
 
-  return posts;
+    return await posts.json();
+  } catch (e) {
+    console.log(e);
+  }
 }

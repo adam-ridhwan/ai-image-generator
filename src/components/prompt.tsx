@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import LoadingSpinner from '@/icons/loading-spinner';
 import Wand from '@/icons/wand';
 import { atom, useAtom, useSetAtom } from 'jotai';
+import { z } from 'zod';
 
 import { PromptSchema } from '@/types/types';
 import { cn } from '@/lib/utils';
@@ -32,13 +33,13 @@ const Prompt = () => {
     e.preventDefault();
 
     const result = await wrappedRequest(async () => {
-      const parsedPrompt = PromptSchema.safeParse(prompt);
+      const parsedPrompt = z.string().min(3, 'Prompt must be at least 3 characters long.').safeParse(prompt);
       if (!parsedPrompt.success) return setError(parsedPrompt.error.issues[0].message);
 
       const response = await fetch(`/api/dall-e`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: parsedPrompt.data }),
+        body: JSON.stringify(parsedPrompt.data),
       });
 
       if (!response.ok) {

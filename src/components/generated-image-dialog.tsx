@@ -6,8 +6,10 @@ import LoadingSpinner from '@/icons/loading-spinner';
 import Rocket from '@/icons/rocket';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
-import { PostSchema, PromptSchema } from '@/types/types';
+import { PostSchemaModel } from '@/types/client-types';
+import { NameSchema, PromptSchema } from '@/types/types';
 import { cn } from '@/lib/utils';
 import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -16,7 +18,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { imageAtom, nameAtom, promptAtom } from '@/components/prompt';
-import PublishButton from '@/components/publish-button';
 
 export const isGeneratedImageDialogOpenAtom = atom(false);
 
@@ -39,13 +40,13 @@ const GeneratedImageDialog = () => {
 
   const handlePublish = async () => {
     await wrappedRequest(async () => {
-      const parsedPost = PostSchema.safeParse({ name, prompt, image });
+      const parsedPost = PostSchemaModel.safeParse({ name, prompt, image });
       if (!parsedPost.success) return setError(parsedPost.error.issues[0].message);
 
       const response = await fetch(`/api/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsedPost.data),
+        body: JSON.stringify({ name, prompt, image }),
       });
 
       if (response.status !== 200) throw new Error('Something went wrong.');

@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import { z } from 'zod';
 
-import { PostSchema } from '@/types/types';
+import '@/types/types';
+
+import { PostSchemaModel } from '@/types/client-types';
 import { connectToDatabase } from '@/lib/connectToDatabase';
 import { cn, plainify } from '@/lib/utils';
 import SearchInput from '@/components/search-input';
@@ -11,7 +13,7 @@ export default async function Home() {
 
   const fetchedPosts = await postCollection.find().toArray();
 
-  const parsedFetchedPosts = z.array(PostSchema).safeParse(plainify(fetchedPosts));
+  const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
   if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);
 
   const posts = parsedFetchedPosts.data;

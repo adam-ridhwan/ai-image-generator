@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 
-import { CloudinaryUploadDataSchema, PostSchema } from '@/types/types';
+import { PostSchemaDTO } from '@/types/server-types';
+import { CloudinaryUploadDataSchema } from '@/types/types';
 import { connectToDatabase } from '@/lib/connectToDatabase';
 import env from '@/lib/env';
 
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
     const parseResult = CloudinaryUploadDataSchema.safeParse(await response.json());
     if (!parseResult.success) throw new Error('Failed to parse response data');
 
-    const parsedNewPost = PostSchema.safeParse({
+    const parsedNewPost = PostSchemaDTO.safeParse({
       name,
       prompt,
       image: parseResult.data.secure_url,

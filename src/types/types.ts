@@ -31,7 +31,6 @@ export const PromptSchema = z.string().min(3, 'Prompt must be at least 3 charact
 export const NameSchema = z.string().min(1, 'Name cannot be empty.');
 
 export const PostSchema = z.object({
-  _id: z.string().optional(),
   name: NameSchema,
   prompt: PromptSchema,
   image: z.string().min(3, 'Image URL must be at least 3 characters long.'),

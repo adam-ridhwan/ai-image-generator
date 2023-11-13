@@ -5,7 +5,9 @@ import Rocket from '@/icons/rocket';
 import { useAtomValue } from 'jotai';
 import { toast } from 'sonner';
 
-import { PostSchema } from '@/types/types';
+import '@/types/types';
+
+import { PostSchemaModel } from '@/types/client-types';
 import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { Button } from '@/components/ui/button';
 import { imageAtom, nameAtom, promptAtom } from '@/components/prompt';
@@ -18,8 +20,9 @@ const PublishButton = () => {
 
   const handlePublish = async () => {
     await wrappedRequest(async () => {
-      const parsedPost = PostSchema.safeParse({ name, prompt, image });
+      const parsedPost = PostSchemaModel.safeParse({ name, prompt, image });
       if (!parsedPost.success) throw new Error(`${parsedPost.error.issues[0].message}`);
+
       const response = await fetch(`/api/upload`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -40,6 +40,8 @@ const Prompt = () => {
       return response.json();
     });
 
+    if (!result) return;
+
     setPost(post => ({
       ...post,
       image: result.data[0].url,

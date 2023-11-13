@@ -35,7 +35,7 @@ export default async function Home() {
   // await postCollection.insertMany(postsToDuplicate);
 
   return (
-    <main className='mb-20'>
+    <main className='mb-20 flex flex-col gap-8'>
       <section className='bg-secondary/50 pb-24 pt-16'>
         <div className='container'>
           <div className='flex flex-col gap-4'>
@@ -49,11 +49,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className='container flex -translate-y-12 items-center justify-center'>
-        <div className='mb-10 flex h-24 w-full flex-col items-center justify-center gap-2 rounded-lg bg-white px-5 shadow-xl md:w-[500px]'>
-          <SearchInput />
-        </div>
-      </div>
+      {/*<div className='container flex -translate-y-12 items-center justify-center'>*/}
+      {/*<div className='mb-10 flex h-24 w-full flex-col items-center justify-center gap-2 rounded-lg bg-white px-5 shadow-xl md:w-[500px]'>*/}
+      {/*  <SearchInput />*/}
+      {/*</div>*/}
+      {/*</div>*/}
 
       <section className='container'>
         <div className='group  grid grid-flow-row-dense grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>

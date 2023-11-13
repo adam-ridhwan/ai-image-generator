@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getPosts } from '@/actions/get-posts';
 import { z } from 'zod';
 
 import { PostSchemaModel } from '@/types/client-types';

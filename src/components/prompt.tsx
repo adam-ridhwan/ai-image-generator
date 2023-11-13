@@ -34,12 +34,13 @@ const Prompt = () => {
 
     const result = await wrappedRequest(async () => {
       const parsedPrompt = z.string().min(3, 'Prompt must be at least 3 characters long.').safeParse(prompt);
+      // console.log(parsedPrompt);
       if (!parsedPrompt.success) return setError(parsedPrompt.error.issues[0].message);
 
       const response = await fetch(`/api/dall-e`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsedPrompt.data),
+        body: JSON.stringify({ prompt: parsedPrompt.data }),
       });
 
       if (!response.ok) {

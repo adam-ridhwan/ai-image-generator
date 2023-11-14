@@ -16,7 +16,7 @@ const PublishButton = () => {
   const { loading: isPublishing, wrappedRequest } = useWrappedRequest();
 
   const handlePublish = async () => {
-    await wrappedRequest(async () => {
+    const result = await wrappedRequest(async () => {
       const parsedPost = PostSchemaModel.safeParse(post);
       if (!parsedPost.success) throw new Error(`${parsedPost.error.issues[0].message}`);
 
@@ -29,8 +29,11 @@ const PublishButton = () => {
       if (!response.ok) throw new Error(await response.text());
 
       toast.success('Published to community');
+      console.log(response);
       return response.json();
     });
+
+    console.log(result);
   };
 
   return (

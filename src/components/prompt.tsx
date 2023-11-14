@@ -45,7 +45,7 @@ const Prompt = () => {
     setPost(post => ({
       ...post,
       image: result.data[0].url,
-      revised_prompt: result.data[0].revised_prompt,
+      revised_prompt: result.data[0].revised_prompt || '',
     }));
 
     setIsGeneratedImageDialogOpenAtom(true);

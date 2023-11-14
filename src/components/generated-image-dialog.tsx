@@ -21,6 +21,7 @@ export const isGeneratedImageDialogOpenAtom = atom(false);
 
 const GeneratedImageDialog = () => {
   const { post, setPost } = usePost();
+  const [isPublished, setIsPublished] = useState(false);
   const { loading: isPublishing, wrappedRequest } = useWrappedRequest();
   const [error, setError] = useState('');
 
@@ -32,10 +33,11 @@ const GeneratedImageDialog = () => {
     setIsGeneratedImageDialogOpenAtom(false);
     setError('');
     setPost(post => ({ ...post, name: '' }));
+    setIsPublished(false);
   };
 
   const handlePublish = async () => {
-    await wrappedRequest(async () => {
+    const result = await wrappedRequest(async () => {
       const parsedPost = PostSchemaModel.safeParse(post);
       if (!parsedPost.success) return setError(parsedPost.error.issues[0].message);
 
@@ -50,6 +52,8 @@ const GeneratedImageDialog = () => {
       toast.success('Published to community');
       return response.json();
     });
+
+    if (result) setIsPublished(true);
   };
 
   return (
@@ -80,6 +84,7 @@ const GeneratedImageDialog = () => {
               value={post.name}
               onChange={e => setPost(post => ({ ...post, name: e.target.value }))}
               onFocus={() => setError('')}
+              disabled={isPublished || isPublishing}
               className='border-transparent bg-secondary/80 hover:border hover:border-primary/30'
             />
 
@@ -90,10 +95,10 @@ const GeneratedImageDialog = () => {
             type='button'
             size='xl'
             onClick={handlePublish}
-            disabled={isPublishing}
+            disabled={isPublished || isPublishing}
             className='flex w-full flex-row items-center gap-1'
           >
-            {renderLabel(isPublishing)}
+            {isPublished ? 'Published' : renderLabel(isPublishing)}
           </Button>
         </div>
       </DialogContent>

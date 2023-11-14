@@ -9,6 +9,8 @@ import { PostSchemaModel } from '@/types/client-types';
 import { cn } from '@/lib/utils';
 import SearchInput from '@/components/search-input';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const posts = await getPosts();
 

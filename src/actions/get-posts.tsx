@@ -1,21 +1,18 @@
 'use server';
 
-import env from '@/lib/env';
+import { z } from 'zod';
 
-const { NEXT_PUBLIC_NODE_ENV } = env;
+import { PostSchemaModel } from '@/types/client-types';
+import { connectToDatabase } from '@/lib/connectToDatabase';
+import { plainify } from '@/lib/utils';
 
 export async function getPosts() {
-  const url =
-    NEXT_PUBLIC_NODE_ENV === 'production' ? 'https://pixel-craft-rust.vercel.app' : 'http://localhost:3000';
+  const { postCollection } = await connectToDatabase();
 
-  try {
-    const posts = await fetch(`${url}/api/posts`, {
-      method: 'POST',
-      cache: 'no-store',
-    });
+  const fetchedPosts = await postCollection.find().sort({ _id: -1 }).toArray();
 
-    return await posts.json();
-  } catch (e) {
-    console.log(e);
-  }
+  const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
+  if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);
+
+  return parsedFetchedPosts.data;
 }

@@ -1,5 +1,6 @@
 'use server';
 
+import { unstable_noStore as noStore } from 'next/cache';
 import { z } from 'zod';
 
 import { PostSchemaModel } from '@/types/client-types';
@@ -7,6 +8,8 @@ import { connectToDatabase } from '@/lib/connectToDatabase';
 import { plainify } from '@/lib/utils';
 
 export async function getPosts() {
+  noStore();
+
   const { postCollection } = await connectToDatabase();
 
   const fetchedPosts = await postCollection.find().sort({ _id: -1 }).toArray();

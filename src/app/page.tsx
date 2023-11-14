@@ -3,25 +3,12 @@ import Image from 'next/image';
 import '@/types/types';
 
 import { getPosts } from '@/actions/get-posts';
-import { z } from 'zod';
 
-import { PostSchemaModel } from '@/types/client-types';
 import { cn } from '@/lib/utils';
-import SearchInput from '@/components/search-input';
-
-export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const posts = await getPosts();
-
-  const parsedPost = z.array(PostSchemaModel).safeParse(posts);
-  if (!parsedPost.success) return <div>Error fetching posts</div>;
-
-  //
-  // const parsedFetchedPosts = z.array(PostSchemaModel).safeParse(plainify(fetchedPosts));
-  // if (!parsedFetchedPosts.success) throw new Error(parsedFetchedPosts.error.message);
-  //
-  // const posts = parsedFetchedPosts.data;
+  if (!posts) return <div>Error fetching posts</div>;
 
   // const postsToDuplicate = posts.map(post => {
   //   // Clone the post object
@@ -59,7 +46,7 @@ export default async function Home() {
 
       <section className='container'>
         <div className='group  grid grid-flow-row-dense grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
-          {parsedPost.data.map(({ _id, name, prompt, image }, index) => (
+          {posts.map(({ _id, name, prompt, image }, index) => (
             <button
               key={_id}
               className={cn('group/item relative aspect-square w-full', {

@@ -1,19 +1,46 @@
 import Link from 'next/link';
+import Crown from '@/icons/crown';
 import ImageFill from '@/icons/image-fill';
+import { getServerSession } from 'next-auth';
 
 import { Button } from '@/components/ui/button';
+import AvatarButton from '@/components/avatar-button';
+import SignInButton from '@/components/sign-in-button';
 
-const Header = () => (
-  <header className='flex h-20 flex-row items-center justify-between px-[1rem]'>
-    <Link href='/' className='flex flex-row items-center gap-1'>
-      <ImageFill />
-      <span className='text-xl font-semibold text-primary'>PixelCraft</span>
-    </Link>
+const Header = async () => {
+  const session = await getServerSession();
 
-    <Button size='xl' asChild className='text-lg font-light'>
-      <Link href={'/create-post'}>Create</Link>
-    </Button>
-  </header>
-);
+  let src: string = '';
+
+  if (session && session?.user?.image) {
+    src = session.user.image;
+  }
+
+  return (
+    <header className='flex h-20 flex-row items-center justify-between px-[1rem]'>
+      <Link href='/' className='flex flex-row items-center gap-1'>
+        <ImageFill />
+        <span className='text-xl font-semibold text-primary'>PixelCraft</span>
+      </Link>
+
+      <div className='flex flex-row items-center gap-2'>
+        {session ? (
+          <div className='flex flex-row items-center gap-4'>
+            <Button size='lg' asChild className='px-5 py-6 text-lg font-light'>
+              <Link href={'/buy'} className='flex flex-row items-center gap-2 font-semibold'>
+                <Crown />
+                Buy credits
+              </Link>
+            </Button>
+
+            <AvatarButton session={session} />
+          </div>
+        ) : (
+          <SignInButton />
+        )}
+      </div>
+    </header>
+  );
+};
 
 export default Header;

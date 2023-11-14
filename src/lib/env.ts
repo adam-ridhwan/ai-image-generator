@@ -10,9 +10,15 @@ const env = cleanEnv(process.env, {
   OPENAI_API_KEY: str(),
   OPENAI_ORG: str(),
 
+  NEXTAUTH_SECRET: str(),
+  NEXTAUTH_URL: str(),
+
   CLOUDINARY_CLOUD_NAME: str(),
   CLOUDINARY_API_KEY: str(),
   CLOUDINARY_API_SECRET: str(),
+
+  GOOGLE_ID: str(),
+  GOOGLE_SECRET: str(),
 });
 
 export default env;

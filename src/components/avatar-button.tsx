@@ -3,13 +3,12 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Session } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -38,7 +37,7 @@ const AvatarButton = ({ session }: Props) => {
       <DropdownMenuContent align='end' className='min-w-[16rem] px-5 py-3'>
         <DropdownMenuLabel className='flex flex-col'>
           <span className='text-xl'>{session.user?.name}</span>
-          <span className='text-lg'>{session.user?.email}</span>
+          <span className='text-lg font-normal'>{session.user?.email}</span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 

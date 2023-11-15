@@ -84,5 +84,5 @@ export const COLORS = [
   { orange: 'bg-[#F76B15]' },
   { yellow: 'bg-[#FFDC00]' },
   { black: 'bg-[#000000]' },
-  { white: 'bg-[#ffffff]' },
+  { white: 'bg-[#F7F9F8]' },
 ];

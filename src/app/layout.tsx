@@ -6,7 +6,7 @@ import AuthProvider from '@/providers/auth-provider';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'sonner';
 
-import { connectToDatabase } from '@/lib/connectToDatabase';
+import Footer from '@/components/footer';
 import Header from '@/components/header';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -21,10 +21,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={`${inter.className} min-h-[100dvh]`}>
         <AuthProvider>
-          <Toaster richColors position='top-center' toastOptions={{ style: { fontSize: '16px' } }} />
-          <Header />
-          {children}
+          <div className='flex min-h-[100dvh] flex-col'>
+            <div className='flex-1'>
+              <Toaster richColors position='top-center' toastOptions={{ style: { fontSize: '16px' } }} />
+              <Header />
+              {children}
+            </div>
+          </div>
         </AuthProvider>
+        <Footer />
       </body>
     </html>
   );

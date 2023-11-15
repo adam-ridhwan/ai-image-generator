@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Crown from '@/icons/crown';
+import { Wand } from '@/icons';
 import ImageFill from '@/icons/image-fill';
-import Wand from '@/icons/wand';
 import { getServerSession } from 'next-auth';
 
 import { Button } from '@/components/ui/button';

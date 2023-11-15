@@ -1,23 +1,19 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { COLORS, DESIGN_KEYWORDS } from '@/constants';
-import LoadingSpinner from '@/icons/loading-spinner';
-import Wand from '@/icons/wand';
-import Warning from '@/icons/warning';
-import { atom, useAtom, useSetAtom } from 'jotai';
+import { LoadingSpinner, Wand, Warning } from '@/icons';
+import { useSetAtom } from 'jotai';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
-import { Post, PromptSchema } from '@/types/types';
-import { cn, getRandomPrompt, plainify } from '@/lib/utils';
+import { PromptSchema } from '@/types/types';
+import { cn, getRandomPrompt } from '@/lib/utils';
 import usePost from '@/hooks/usePost';
 import { useWrappedRequest } from '@/hooks/useWrappedRequest';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { isGeneratedImageDialogOpenAtom } from '@/components/generated-image-dialog';
-import TryExampleButton from '@/components/try-example-button';
 
 const Prompt = () => {
   const { post, setPost } = usePost();

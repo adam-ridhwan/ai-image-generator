@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import LoadingSpinner from '@/icons/loading-spinner';
-import Rocket from '@/icons/rocket';
+import { LoadingSpinner, Rocket } from '@/icons';
 import { atom, useAtom } from 'jotai';
 import { toast } from 'sonner';
 

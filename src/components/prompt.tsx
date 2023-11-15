@@ -46,10 +46,24 @@ const Prompt = () => {
 
     const result = await wrappedRequest(async () => {
       // validate
-      if (!post.prompt) setPromptError('Please provide a prompt.');
-      if (!color) setColorError('Please pick a color.');
-      if (!style && keywords.length === 0)
-        return setStyleError('Please provide a design style or select at least one keyword below.');
+      const validations = [
+        { condition: !post.prompt, setError: setPromptError, message: 'Please provide a prompt.' },
+        { condition: !color, setError: setColorError, message: 'Please pick a color.' },
+        {
+          condition: !style && keywords.length === 0,
+          setError: setStyleError,
+          message: 'Please provide a design style or select at least one keyword below.',
+        },
+      ];
+
+      validations.forEach(({ condition, setError, message }) => {
+        if (condition) setError(message);
+      });
+
+      if (validations.some(({ condition }) => condition)) {
+        // There are validation errors, so you might want to return or handle them accordingly.
+        return;
+      }
 
       const userColor = ` I want the primary to be ${color}.`;
       const userStyle = ` Here is the design style ${style}.`;
@@ -69,7 +83,17 @@ const Prompt = () => {
         body: JSON.stringify({ prompt: parsedPrompt.data }),
       });
 
-      if (!response.ok) throw new Error(await response.text());
+      if (!response.ok) {
+        // setPost(post => ({
+        //   ...post,
+        //   prompt: '',
+        // }));
+        // setStyle('');
+        // setColor('');
+        // setKeywords([]);
+        // validations.forEach(({ setError }) => setError(''));
+        throw new Error(await response.text());
+      }
 
       return response.json();
     });

@@ -37,3 +37,7 @@ export const PostSchema = z.object({
   image: z.string().min(3, 'Image URL must be at least 3 characters long.'),
 });
 export type Post = z.infer<typeof PostSchema>;
+
+export type DesignKeyword = {
+  keyword: string;
+};

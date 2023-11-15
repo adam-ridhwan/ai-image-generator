@@ -11,12 +11,6 @@ import SignInButton from '@/components/sign-in-button';
 const Header = async () => {
   const session = await getServerSession();
 
-  let src: string = '';
-
-  if (session && session?.user?.image) {
-    src = session.user.image;
-  }
-
   return (
     <header className='flex h-20 flex-row items-center justify-between px-[1rem]'>
       <Link href='/' className='flex flex-row items-center gap-1'>
@@ -34,10 +28,10 @@ const Header = async () => {
             {/*  </Link>*/}
             {/*</Button>*/}
 
-            <Button size='lg' asChild className='px-5 py-6 text-lg font-light'>
+            <Button size='icon' asChild className='text-lg font-light'>
               <Link href={'/create'} className='flex flex-row items-center gap-2 font-semibold'>
                 <Wand />
-                Create
+                {/*Create*/}
               </Link>
             </Button>
 

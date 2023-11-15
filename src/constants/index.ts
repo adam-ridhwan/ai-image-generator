@@ -1,3 +1,5 @@
+import { DesignKeyword } from '@/types/types';
+
 export const surpriseMePrompts: string[] = [
   'an armchair in the shape of an avocado',
   'a surrealist dream-like oil painting by Salvador Dalí of a cat playing checkers',
@@ -45,4 +47,42 @@ export const surpriseMePrompts: string[] = [
   'Synth-wave aeroplane',
   'A man wanders through the rainy streets of Tokyo, with bright neon signs, 50mm',
   'A Space Shuttle flying above Cape Town, digital art',
+];
+
+export const DESIGN_KEYWORDS: DesignKeyword[] = [
+  { keyword: 'metallic' },
+  { keyword: 'polygon' },
+  { keyword: 'pixelated' },
+  { keyword: 'clay' },
+  { keyword: 'gradient' },
+  { keyword: 'flat' },
+  { keyword: 'minimalistic' },
+  { keyword: 'hand drawn' },
+  { keyword: 'watercolor' },
+  { keyword: 'isometric' },
+  { keyword: 'neon' },
+  { keyword: 'cartoonish' },
+  { keyword: '3D' },
+  { keyword: 'line art' },
+  { keyword: 'pop art' },
+  { keyword: 'doodle' },
+  { keyword: 'grunge' },
+  { keyword: 'sticker' },
+  { keyword: 'realistic' },
+  { keyword: 'mosaic' },
+  { keyword: 'origami' },
+  { keyword: 'chalkboard' },
+  { keyword: 'woodcut' },
+];
+
+export const COLORS = [
+  { red: 'bg-[#E5484D]' },
+  { pink: 'bg-[#D6409F]' },
+  { purple: 'bg-[#8E4EC6]' },
+  { blue: 'bg-[#0090FF]' },
+  { green: 'bg-[#30A46C]' },
+  { orange: 'bg-[#F76B15]' },
+  { yellow: 'bg-[#FFDC00]' },
+  { black: 'bg-[#000000]' },
+  { white: 'bg-[#ffffff]' },
 ];

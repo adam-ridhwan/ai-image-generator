@@ -1,10 +1,7 @@
 'use client';
 
-import { toast } from 'sonner';
-
-import '@/types/types';
-
 import { LoadingSpinner, Rocket } from '@/icons';
+import { toast } from 'sonner';
 
 import { PostSchemaModel } from '@/types/client-types';
 import usePost from '@/hooks/usePost';

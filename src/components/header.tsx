@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Wand } from '@/icons';
-import ImageFill from '@/icons/image-fill';
+import { ImageFill, Wand } from '@/icons';
 import { getServerSession } from 'next-auth';
 
 import { Button } from '@/components/ui/button';

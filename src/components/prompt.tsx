@@ -166,6 +166,7 @@ const Prompt = () => {
                 key={textColor}
                 type='button'
                 size='icon'
+                disabled={isGenerating}
                 onClick={() => {
                   setColorError('');
                   setColor(textColor);
@@ -219,6 +220,7 @@ const Prompt = () => {
               key={keyword}
               type='button'
               variant='outline'
+              disabled={isGenerating}
               onClick={() => handleSelectKeyword(keyword)}
               className={cn('rounded-full', {
                 'bg-primary text-white hover:bg-primary hover:text-white': keywords.includes(keyword),

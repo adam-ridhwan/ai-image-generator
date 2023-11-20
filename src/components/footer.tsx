@@ -1,12 +1,9 @@
 import Link from 'next/link';
-import { ImageFill } from '@/icons';
 
 const Footer = () => {
   return (
     <footer className='bg-secondary/50'>
       <div className='container flex h-32 flex-row items-center justify-center gap-2'>
-        <ImageFill className='h-10 w-10' />
-
         <div>
           <Link href='/' className='flex flex-row items-center gap-2'>
             <span className='text-xl font-semibold text-primary'>PixelCraft </span>

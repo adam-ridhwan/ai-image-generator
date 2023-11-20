@@ -1,9 +1,11 @@
+import Image from 'next/image';
 import Link from 'next/link';
-import { ImageFill, Wand } from '@/icons';
+import { Crown } from '@/icons';
 import { getServerSession } from 'next-auth';
 
 import { Button } from '@/components/ui/button';
 import AvatarButton from '@/components/avatar-button';
+import Navbar from '@/components/nav-bar';
 import SignInButton from '@/components/sign-in-button';
 
 const Header = async () => {
@@ -11,25 +13,27 @@ const Header = async () => {
 
   return (
     <header className='flex h-20 flex-row items-center justify-between px-[1rem]'>
-      <Link href='/' className='flex flex-row items-center gap-1'>
-        <ImageFill />
-        <span className='text-xl font-semibold text-primary'>PixelCraft</span>
-      </Link>
+      <div className='flex-1'>
+        <Link href='/' className='flex w-max  flex-row items-center gap-1'>
+          <div className='relative aspect-square w-12'>
+            <Image src='/logo.png' alt='logo' fill className='rounded-lg object-cover' />
+          </div>
 
-      <div className='flex flex-row items-center gap-2'>
+          <span className='hidden text-xl font-semibold text-primary'>PixelCraft</span>
+        </Link>
+      </div>
+
+      <div className='hidden flex-1 flex-row items-center justify-center gap-2 md:flex'>
+        <Navbar session={session} />
+      </div>
+
+      <div className='flex flex-1 flex-row items-center justify-end gap-2'>
         {session ? (
-          <div className='flex flex-row items-center gap-4'>
-            {/*<Button size='lg' asChild className='px-5 py-6 text-lg font-light'>*/}
-            {/*  <Link href={'/buy'} className='flex flex-row items-center gap-2 font-semibold'>*/}
-            {/*    <Crown />*/}
-            {/*    Buy credits*/}
-            {/*  </Link>*/}
-            {/*</Button>*/}
-
-            <Button size='icon' asChild className='text-lg font-light'>
-              <Link href={'/create'} className='flex flex-row items-center gap-2 font-semibold'>
-                <Wand />
-                {/*Create*/}
+          <div className=' flex flex-row items-center gap-4'>
+            <Button size='lg' asChild className='hidden px-5 py-6 text-lg font-light md:flex'>
+              <Link href={'/buy'} className='flex flex-row items-center gap-2 font-semibold'>
+                <Crown />
+                <span className='whitespace-nowrap'>Buy credits</span>
               </Link>
             </Button>
 

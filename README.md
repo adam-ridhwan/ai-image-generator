@@ -11,11 +11,11 @@
 An awesome image generator platform.
 <br/>
 <br/>
-<a href="https://github.com/adam-ridhwan/pixel-craft">View Demo</a>
+<a href="https://pixel-craft-rust.vercel.app/">View Demo</a>
 .
-<a href="https://github.com/adam-ridhwan/pixel-craft/issues">Report Bug</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSdlGTqPyVnAYGZuC0pzYU1J4m9-B0ND2rJSooN6XKXdqQleug/viewform?usp=sf_link">Report Bug</a>
 .
-<a href="https://github.com/adam-ridhwan/pixel-craft/issues">Request Feature</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSedrDUfoSsxrFd7_GMXyM-z_4qlYOX1ujV9x27EGr0T1qHCKw/viewform?usp=sf_link">Request Feature</a>
 </p>
 
 
@@ -24,7 +24,7 @@ An awesome image generator platform.
 
 ![Screen Shot](public/screenshot.png)
 
-### Our Journey
+### The Journey
 As a creator with a keen interest in generating unique images for websites, I often found myself bogged 
 down by the time-consuming process of crafting prompts for AI-based image generation. This challenge 
 sparked the interest of creating an app the streamlines the process of prompting. I wanted to create a 

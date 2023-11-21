@@ -1,28 +1,30 @@
 <br/>
-<p align="center">
+
+
+<div align="center">
   <a href="https://github.com/adam-ridhwan/pixel-craft">
     <img src="public/logo.png" alt="Logo" width="250" height="250">
   </a>
-</p>
 
-<h1 align="center">PixelCraft</h1>
+  <h1 align="center">PixelCraft</h1>
+  <h3>An awesome image generator platform.</h3>
+  <p>Note This Project Is Still W.I.P</p>
 
-<p align="center">
-An awesome image generator platform.
-<br/>
-<br/>
-<a href="https://pixel-craft-rust.vercel.app/">View Demo</a>
-.
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSdlGTqPyVnAYGZuC0pzYU1J4m9-B0ND2rJSooN6XKXdqQleug/viewform?usp=sf_link">Report Bug</a>
-.
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSedrDUfoSsxrFd7_GMXyM-z_4qlYOX1ujV9x27EGr0T1qHCKw/viewform?usp=sf_link">Request Feature</a>
-</p>
+  <br/>
+  <br/>
+  <a href="https://pixel-craft-rust.vercel.app/">View Demo</a>
+  .
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSdlGTqPyVnAYGZuC0pzYU1J4m9-B0ND2rJSooN6XKXdqQleug/viewform?usp=sf_link">Report Bug</a>
+  .
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSedrDUfoSsxrFd7_GMXyM-z_4qlYOX1ujV9x27EGr0T1qHCKw/viewform?usp=sf_link">Request Feature</a>
+</div>
 
 
+
+
+![Screen Shot](public/screenshots/thumbnail.png)
 
 ## About The Project
-
-![Screen Shot](public/screenshot.png)
 
 ### The Journey
 As a creator with a keen interest in generating unique images for websites, I often found myself bogged 
@@ -59,11 +61,10 @@ you're designing a platform for rapid, effortless image generation.
 - Cloudinary
 
 ## Getting Started
-
 To get started, you need to get your own api keys from mongodb, openai, nextauth, cloudinary and google.
 
-### Installation
 
+### Installation
 1. Get a free API Key at mongodb, openai, nextauth, cloudinary and google
 
 2. Clone the repo
@@ -84,28 +85,72 @@ npm install
 API_KEY = 'ENTER YOUR API';
 ```
 
-[//]: # (## Usage)
+## Usage
+Below are some screenshots of how the images are generated.
 
-[//]: # ()
-[//]: # (Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.)
+### 1) Entering prompt
+Users are provided with a **prompt input**, **color selection**, **style input** and **keyword selection**.
+They can also click on the `Try example` button to generate a random prompt.
+<br/>
 
-[//]: # ()
-[//]: # (_For more examples, please refer to the [Documentation]&#40;https://example.com&#41;_)
 
-[//]: # (## Roadmap)
+<div style="padding-left: 30px; padding-right: 30px;"> 
+  <img src="public/screenshots/prompt.png" alt="Screen Shot">
+</div>
 
-[//]: # ()
-[//]: # (See the [open issues]&#40;https://github.com/adam-ridhwan/pixel-craft/issues&#41; for a list of proposed features &#40;and known issues&#41;.)
+
+
+### 2) Error handling 
+All fields are required so that we can ge the most accurate image we want to generate. Using zod to 
+validate all the input and buttons to make sure that they are all not empty. 
+<br/>
+
+<div style="padding-left: 30px; padding-right: 30px;"> 
+  <img src="public/screenshots/error.png" alt="Screen Shot">
+</div>
+
+
+### 3) Image generation
+Once the inputs are entered and buttons are selected, the information given is then crafted into a 
+customized text prompt to get the most accurate result. The information if sent over to `Dall-E OpenAI api` 
+and we retrieve back the generated image. 
+<br/> 
+
+<div style="padding-left: 30px; padding-right: 30px;"> 
+  <img src="public/screenshots/generated-image.png" alt="Screen Shot">
+</div>
+
+
+### 4) Publishing to community
+Publishing to community requires you to enter your name. The image is upload to `Cloudinary`. Once 
+uploaded, the response we get from `Cloudinary` is a URL to points to the image. We then store the URL 
+into a MongoDB database along with other information such as `name`, `prompt`, `revised_prompt`. `Revised 
+prompt` is a prompt that is adjusted by `OpenAI`. The image is then posted onto the `Community` page.
+<br/>
+
+<div style="padding-left: 30px; padding-right: 30px;"> 
+  <img src="public/screenshots/community.png" alt="Screen Shot">
+</div>
+
+
+## Roadmap
+- [x] Create prompt page
+- [x] Create community page
+- [ ] Create collections page
+  - [ ] Create database for storing user's generated images
+- [x] Authentication using NextAuth with Google provider
+- [ ] Only limit 2 generated image for free trial
+- [ ] Make a `Buy credits` feature using `Stripe`. Wanna make a SAAS
+
+
 
 ## Contributing
-
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 * If you have suggestions for adding or removing features, feel free to contact me to discuss it, or 
   directly create a pull request after you edit the *README.md* file with necessary changes.
 * Please make sure you check your spelling and grammar.
 * Create individual PR for each suggestion.
 
-[//]: # (* Please also read through the [Code Of Conduct]&#40;https://github.com/adam-ridhwan/pixel-craft/blob/main/CODE_OF_CONDUCT.md&#41; before posting your first idea as well.)
 
 ### Creating A Pull Request
 
@@ -118,14 +163,4 @@ Contributions are what make the open source community such an amazing place to b
 
 
 ## Authors
-
 * **Adam Ridhwan** - *Fullstack Engineer* - [Adam Ridhwan](https://github.com/adam-ridhwan) - *Creator of PixelCraft*
-
-[//]: # (## Acknowledgements)
-
-[//]: # ()
-[//]: # (* [ShaanCoding]&#40;https://github.com/ShaanCoding/&#41;)
-
-[//]: # (* [Othneil Drew]&#40;https://github.com/othneildrew/Best-README-Template&#41;)
-
-[//]: # (* [ImgShields]&#40;https://shields.io/&#41;)
